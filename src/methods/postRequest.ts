@@ -1,10 +1,10 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { v4 as uuid4 } from 'uuid';
 
-import { checkData, getUserData } from '../utils/common.ts';
+import { checkData, getUserData } from '../utils/common';
 
-import { TUsers } from '../type.ts';
-import { E_STATUS_CODE } from '../constants.ts';
+import { TUsers } from '../type';
+import { E_STATUS_CODE } from '../constants';
 
 export const postRequest = async (
   req: IncomingMessage,

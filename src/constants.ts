@@ -33,3 +33,8 @@ export const USERS = [
     hobbies: ['programming'],
   },
 ];
+
+export const enum E_MESSAGE {
+  notRoute = 'Route not found',
+  titleError = 'Error',
+}

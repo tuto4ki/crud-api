@@ -1,6 +1,7 @@
-import { IncomingMessage } from 'http';
+import { IncomingMessage, ServerResponse } from 'http';
 
-import { TUsers } from '../type.ts';
+import { TUsers } from '../type';
+import { E_MESSAGE, E_STATUS_CODE } from '../constants';
 
 export const getUserData = async (
   request: IncomingMessage,
@@ -58,4 +59,20 @@ export const checkDataType = (user: TUsers): boolean => {
     return false;
   }
   return true;
+};
+
+export const errorResponseNotRoute = (
+  res: ServerResponse<IncomingMessage> & {
+    req: IncomingMessage;
+  },
+) => {
+  res.statusCode = E_STATUS_CODE.notFound;
+  res.setHeader('Content-Type', 'application/json');
+  res.write(
+    JSON.stringify({
+      title: E_MESSAGE.titleError,
+      message: E_MESSAGE.notRoute,
+    }),
+  );
+  res.end();
 };

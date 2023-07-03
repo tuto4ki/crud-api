@@ -1,15 +1,21 @@
 import { createServer } from 'http';
+import 'dotenv/config';
 
-import { E_METHOD, E_STATUS_CODE, USERS } from './constants.ts';
-import { getRequest } from './methods/getRequest.ts';
-import { postRequest } from './methods/postRequest.ts';
-import { putRequest } from './methods/putRequest.ts';
-import { deleteRequest } from './methods/deleteRequest.ts';
+import { E_METHOD, USERS } from './constants';
+import { getRequest } from './methods/getRequest';
+import { postRequest } from './methods/postRequest';
+import { putRequest } from './methods/putRequest';
+import { deleteRequest } from './methods/deleteRequest';
+import { errorResponseNotRoute } from './utils/common';
 
 const hostname = 'localhost';
-const port = 3000;
+const port = Number(process.env.PORT);
 
 const server = createServer((req, res) => {
+  if (req.url && req?.url.split('/').length > 4) {
+    errorResponseNotRoute(res);
+    return;
+  }
   switch (req.method) {
     case E_METHOD.get:
       getRequest(req, res, USERS);
@@ -24,12 +30,7 @@ const server = createServer((req, res) => {
       deleteRequest(req, res, USERS);
       break;
     default:
-      res.statusCode = E_STATUS_CODE.notFound;
-      res.setHeader('Content-Type', 'application/json');
-      res.write(
-        JSON.stringify({ title: 'Not Found', message: 'Route not found' }),
-      );
-      res.end();
+      errorResponseNotRoute(res);
   }
 });
 

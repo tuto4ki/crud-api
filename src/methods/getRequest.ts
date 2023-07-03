@@ -1,8 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { validate } from 'uuid';
 
-import { TUsers } from '../type.ts';
-import { E_STATUS_CODE } from '../constants.ts';
+import { TUsers } from '../type';
+import { E_STATUS_CODE } from '../constants';
 
 export const getRequest = (
   req: IncomingMessage,
