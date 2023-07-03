@@ -6,5 +6,7 @@ export type TRequest = IncomingMessage & {
 
 export type TUsers = {
   id?: string;
-  name: string;
+  username: string;
+  age: number;
+  hobbies: Array<string>;
 };

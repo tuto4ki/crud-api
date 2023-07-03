@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { v4 as uuid4 } from 'uuid';
 
-import { getUserData } from '../utils/common.ts';
+import { checkData, getUserData } from '../utils/common.ts';
 
 import { TUsers } from '../type.ts';
 import { E_STATUS_CODE } from '../constants.ts';
@@ -16,13 +16,17 @@ export const postRequest = async (
   if (req.url === '/api/users') {
     try {
       const userName = await getUserData(req);
-      if (userName.name === undefined) {
+
+      if (checkData(userName)) {
         throw new Error('Request body does not contain required fields');
       }
+
       const id = uuid4();
       users.push({
         id: id,
-        name: userName.name,
+        username: userName.username,
+        age: userName.age,
+        hobbies: userName.hobbies,
       });
       res.statusCode = E_STATUS_CODE.create;
       res.setHeader('Content-Type', 'application/json');

@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { validate } from 'uuid';
 
-import { getUserData } from '../utils/common.ts';
+import { getUserData, checkDataType } from '../utils/common.ts';
 
 import { TUsers } from '../type.ts';
 import { E_STATUS_CODE } from '../constants.ts';
@@ -16,17 +16,19 @@ export const putRequest = async (
   if (req.url && /^\/api\/users\//.test(req.url)) {
     const uid = req.url.replace(/^\/api\/users\//, '');
     if (validate(uid)) {
-      const userId = users.findIndex((value) => value.id === uid);
-      if (userId >= 0) {
+      const userIndex = users.findIndex((value) => value.id === uid);
+      if (userIndex >= 0) {
         try {
           const userName = await getUserData(req);
-          console.warn(users[userId], userId);
-          if (userName.name) {
-            users[userId] = { id: uid, name: userName.name };
+
+          if (!checkDataType(userName)) {
+            throw new Error('Request body does not contain required fields');
           }
+
+          users[userIndex] = { ...users[userIndex], ...userName };
           res.statusCode = E_STATUS_CODE.success;
           res.setHeader('Content-Type', 'application/json');
-          res.write(JSON.stringify(users[userId]));
+          res.write(JSON.stringify(users[userIndex]));
           res.end();
         } catch (error) {
           res.statusCode = E_STATUS_CODE.error;
