@@ -8,6 +8,7 @@ export enum E_METHOD {
 export enum E_STATUS_CODE {
   create = 201,
   success = 200,
+  delete = 204,
   error = 400,
   notFound = 404,
 }
