@@ -31,11 +31,14 @@ npm run start:dev
 
 **POST**/**PUT** requests with Postman:
 send the request `body` by selecting `raw` and insert it into the field, for example:
+
+```bash
 {
-     "username": "Tamara",
-     age: 64
-     "hobbies": "['Music', 'Dancing']"
+    "username": "Tamara",
+    "age": 64,
+    "hobbies": ["Music", "Dancing"]
 }
+```
 
 ---
 ## Implementation details
