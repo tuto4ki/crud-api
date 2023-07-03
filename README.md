@@ -27,18 +27,19 @@ npm run start:dev
 
 5. Check server
 
----
 
 **POST**/**PUT** requests with Postman:
 send the request `body` by selecting `raw` and insert it into the field, for example:
-{
-     "username": "Tamara",
-     age: 64
-     "hobbies": "['Music', 'Dancing']"
-}
 
----
-## Implementation details
+```bash
+{
+    "username": "Tamara",
+    "age": 64,
+    "hobbies": /["Music", "Dancing"]
+}
+```
+
+## Details
 
 1. Endpoint `api/users`:
     - **GET** `api/users` get all persons
