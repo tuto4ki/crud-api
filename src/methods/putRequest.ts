@@ -7,7 +7,7 @@ import {
   errorResponseNotRoute,
 } from '../utils/common';
 import { TUsers } from '../type';
-import { E_STATUS_CODE } from '../constants';
+import { E_MESSAGE, E_STATUS_CODE } from '../constants';
 
 export const putRequest = async (
   req: IncomingMessage,
@@ -34,12 +34,16 @@ export const putRequest = async (
           res.write(JSON.stringify(users[userIndex]));
           res.end();
         } catch (error) {
-          res.statusCode = E_STATUS_CODE.error;
+          const err: Error = <Error>error;
+          res.statusCode = 
+            err.message === E_MESSAGE.serverError
+            ? E_STATUS_CODE.errorServer
+            : E_STATUS_CODE.error;
           res.setHeader('Content-Type', 'application/json');
           res.write(
             JSON.stringify({
               title: 'Error',
-              message: (error as Error).message,
+              message: err.message,
             }),
           );
           res.end();
