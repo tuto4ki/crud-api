@@ -3,6 +3,7 @@ import { createServer } from 'http';
 import { E_METHOD, E_STATUS_CODE, USERS } from './constants.ts';
 import { getRequest } from './methods/getRequest.ts';
 import { postRequest } from './methods/postRequest.ts';
+import { putRequest } from './methods/putRequest.ts';
 
 const hostname = 'localhost';
 const port = 3000;
@@ -14,6 +15,9 @@ const server = createServer((req, res) => {
       break;
     case E_METHOD.post:
       postRequest(req, res, USERS);
+      break;
+    case E_METHOD.put:
+      putRequest(req, res, USERS);
       break;
     default:
       res.statusCode = E_STATUS_CODE.notFound;

@@ -15,12 +15,14 @@ export const postRequest = async (
 ) => {
   if (req.url === '/api/users') {
     try {
-      const dataBody = await getUserData(req);
+      const userName = await getUserData(req);
+      if (userName.name === undefined) {
+        throw new Error('Request body does not contain required fields');
+      }
       const id = uuid4();
-      const userName = dataBody;
       users.push({
-        name: userName.name,
         id: id,
+        name: userName.name,
       });
       res.statusCode = E_STATUS_CODE.create;
       res.setHeader('Content-Type', 'application/json');
