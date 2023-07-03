@@ -35,7 +35,7 @@ send the request `body` by selecting `raw` and insert it into the field, for exa
 {
     "username": "Tamara",
     "age": 64,
-    "hobbies": /["Music", "Dancing"]
+    "hobbies": ["Music", "Dancing"]
 }
 ```
 
