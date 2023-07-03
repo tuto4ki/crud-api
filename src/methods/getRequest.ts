@@ -1,7 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { validate } from 'uuid';
 
-import { TUsers } from 'type';
+import { TUsers } from '../type.ts';
+import { E_STATUS_CODE } from '../constants.ts';
 
 export const getRequest = (
   req: IncomingMessage,
@@ -11,7 +12,7 @@ export const getRequest = (
   users: TUsers[],
 ) => {
   if (req.url === '/api/users') {
-    res.statusCode = 200;
+    res.statusCode = E_STATUS_CODE.success;
     res.setHeader('Content-Type', 'application/json');
     res.write(JSON.stringify(users));
     res.end();
@@ -20,12 +21,12 @@ export const getRequest = (
     if (validate(uid)) {
       const user = users.find((value) => value.id === uid);
       if (user) {
-        res.statusCode = 200;
+        res.statusCode = E_STATUS_CODE.success;
         res.setHeader('Content-Type', 'application/json');
         res.write(JSON.stringify(user));
         res.end();
       } else {
-        res.statusCode = 404;
+        res.statusCode = E_STATUS_CODE.notFound;
         res.setHeader('Content-Type', 'application/json');
         res.write(
           JSON.stringify({
@@ -36,7 +37,7 @@ export const getRequest = (
         res.end();
       }
     } else {
-      res.statusCode = 400;
+      res.statusCode = E_STATUS_CODE.error;
       res.setHeader('Content-Type', 'application/json');
       res.write(
         JSON.stringify({ title: 'Not Valid', message: 'UserId is invalid' }),
@@ -44,7 +45,7 @@ export const getRequest = (
       res.end();
     }
   } else {
-    res.statusCode = 404;
+    res.statusCode = E_STATUS_CODE.notFound;
     res.setHeader('Content-Type', 'application/json');
     res.write(
       JSON.stringify({ title: 'Not Found', message: 'Route not found' }),

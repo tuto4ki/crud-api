@@ -5,6 +5,6 @@ export type TRequest = IncomingMessage & {
 };
 
 export type TUsers = {
-  id: string;
+  id?: string;
   name: string;
 };
