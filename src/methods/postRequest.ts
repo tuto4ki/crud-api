@@ -1,10 +1,9 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { v4 as uuid4 } from 'uuid';
 
-import { checkData, getUserData } from '../utils/common';
-
+import { checkData, errorResponseNotRoute, getUserData } from '../utils/common';
 import { TUsers } from '../type';
-import { E_STATUS_CODE } from '../constants';
+import { E_MESSAGE, E_STATUS_CODE } from '../constants';
 
 export const postRequest = async (
   req: IncomingMessage,
@@ -33,7 +32,11 @@ export const postRequest = async (
       res.write(JSON.stringify(users[users.length - 1]));
       res.end();
     } catch (error) {
-      res.statusCode = E_STATUS_CODE.error;
+      const err: Error = <Error>error;
+      res.statusCode =
+        err.message === E_MESSAGE.serverError
+          ? E_STATUS_CODE.errorServer
+          : E_STATUS_CODE.error;
       res.setHeader('Content-Type', 'application/json');
       res.write(
         JSON.stringify({
@@ -44,11 +47,6 @@ export const postRequest = async (
       res.end();
     }
   } else {
-    res.statusCode = E_STATUS_CODE.notFound;
-    res.setHeader('Content-Type', 'application/json');
-    res.write(
-      JSON.stringify({ title: 'Not Found', message: 'Route not found' }),
-    );
-    res.end();
+    errorResponseNotRoute(res);
   }
 };

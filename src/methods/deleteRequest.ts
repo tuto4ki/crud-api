@@ -3,6 +3,7 @@ import { validate } from 'uuid';
 
 import { TUsers } from '../type';
 import { E_STATUS_CODE } from '../constants';
+import { errorResponseNotRoute } from '../utils/common';
 
 export const deleteRequest = (
   req: IncomingMessage,
@@ -40,11 +41,6 @@ export const deleteRequest = (
       res.end();
     }
   } else {
-    res.statusCode = E_STATUS_CODE.notFound;
-    res.setHeader('Content-Type', 'application/json');
-    res.write(
-      JSON.stringify({ title: 'Not Found', message: 'Route not found' }),
-    );
-    res.end();
+    errorResponseNotRoute(res);
   }
 };

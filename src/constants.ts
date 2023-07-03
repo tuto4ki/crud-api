@@ -11,6 +11,7 @@ export enum E_STATUS_CODE {
   delete = 204,
   error = 400,
   notFound = 404,
+  errorServer = 500,
 }
 
 export const USERS = [
@@ -37,4 +38,5 @@ export const USERS = [
 export const enum E_MESSAGE {
   notRoute = 'Route not found',
   titleError = 'Error',
+  serverError = 'Server error, please enter correct data',
 }

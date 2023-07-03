@@ -1,8 +1,11 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { validate } from 'uuid';
 
-import { getUserData, checkDataType } from '../utils/common';
-
+import {
+  getUserData,
+  checkDataType,
+  errorResponseNotRoute,
+} from '../utils/common';
 import { TUsers } from '../type';
 import { E_STATUS_CODE } from '../constants';
 
@@ -61,11 +64,6 @@ export const putRequest = async (
       res.end();
     }
   } else {
-    res.statusCode = E_STATUS_CODE.notFound;
-    res.setHeader('Content-Type', 'application/json');
-    res.write(
-      JSON.stringify({ title: 'Not Found', message: 'Route not found' }),
-    );
-    res.end();
+    errorResponseNotRoute(res);
   }
 };

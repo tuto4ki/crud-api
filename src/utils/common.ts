@@ -17,8 +17,11 @@ export const getUserData = async (
           const user: TUsers = JSON.parse(body);
           resolve(user);
         } catch (error) {
-          reject(new Error('Request body does not contain required fields'));
+          reject(new Error(E_MESSAGE.serverError));
         }
+      });
+      request.on('error', () => {
+        reject(new Error(E_MESSAGE.serverError));
       });
     } catch (err) {
       reject(err);
